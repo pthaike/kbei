@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import pdb
+import matplotlib.pyplot as plt
 
 def pay():
     dic = {}
@@ -71,12 +72,33 @@ def lastavg(n):
         for i in range(m-n, m):
             if ls[i] == "":
                 continue
-            l = (int(ls[i]) + int(ls[i-1]) + int(ls[i-2])) / 3
-            if l != "":
-                fw.write(str(int(l)) + ',')
+            l = (int(ls[i]) * 5 + int(ls[i-1])*3 + int(ls[i-2])*2) / 10
+            fw.write(str(int(l)) + ',')
         fw.write('\n')
     fw.close()
     fr.close()
+
+
+def last(n):
+    fr = open("../pay_no0.csv",'r')
+    fw = open("../pay_last_noavg50.csv", 'w')
+    for line in fr.readlines():
+        line = line.strip()
+        ls = line.split(",")
+        m = len(ls)
+        fw.write(ls[0]+',')
+        for i in range(m-n, m):
+            if ls[i] == '':
+                continue
+            l = int(ls[i])
+            fw.write(str(int(l)))
+            if i != m-1:
+                fw.write(',')
+        fw.write('\n')
+    fw.close()
+    fr.close()
+
+
 
 def getdata(file):
     df = pd.read_csv(file, header = None)
@@ -137,4 +159,7 @@ if __name__ == '__main__':
     # print getnexttrain(x,y)
 
     # pay1();
-    lastavg(80)
+    last(50)
+    # x,y = getdata('../pay_no0.csv')
+    # plt.plot(x)
+    # plt.show()
